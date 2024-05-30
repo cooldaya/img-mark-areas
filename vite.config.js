@@ -18,6 +18,6 @@ export default defineConfig({
     ],
   },
   build: {
-    outDir: "build-web",
+    outDir: "docs",
   }
 });
