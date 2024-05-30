@@ -13,13 +13,21 @@
       <div>
         标记点的颜色 <input type="color" @change="updateMarkPointColor" />
       </div>
+      <div class="user-data">
+        
+      </div>
     </div>
   </div>
 </template>
 <script setup>
 import { ref } from "vue";
 import META from "@/META";
-import { getFile, downloadJson, getFileMD5 } from "@/lib/tools";
+import {
+  getFile,
+  downloadJson,
+  getFileMD5,
+  createLoadingOverlay,
+} from "@/lib/tools";
 import eventBus from "@/eventBus";
 import shapeStore from "@/lib/shapeStore";
 
@@ -111,11 +119,13 @@ const updateMarkPointColor = (event) => {
 };
 
 // 导出数据
-const exportData = () => {
+const exportData = async () => {
+  const { cancel } = createLoadingOverlay();
   const shapes = shapeStore.getShapes();
   const jsonFileName =
     META.img_name.replace(/\.[^/.]+$/, "") + "(区域标记).json";
-  downloadJson(shapes, jsonFileName);
+  await downloadJson(shapes, jsonFileName);
+  cancel();
 };
 
 // 监听用户页面缩放，同步control的缩放,使其大小不变

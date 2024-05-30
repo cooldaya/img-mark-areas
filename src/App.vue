@@ -3,9 +3,7 @@ import CatchPatch from "./components/CatchPatch.vue";
 </script>
 
 <template>
-  <div>
-    <CatchPatch></CatchPatch>
-  </div>
+  <div><router-view></router-view></div>
 </template>
 
 <style scoped></style>
