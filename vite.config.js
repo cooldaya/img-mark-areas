@@ -4,6 +4,7 @@ import path from "node:path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base:'/cooldaya/img-mark-areas/',
   plugins: [vue()],
   server: {
     host: "0.0.0.0",
