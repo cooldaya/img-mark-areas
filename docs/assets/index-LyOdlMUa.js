@@ -1,1 +1,0 @@
-import{P as e}from"./PageToggle-C5Yo8GLn.js";import{c as a,l as o,e as t,o as r}from"./index-Bx8CzKcP.js";const _={__name:"index",setup(c){return(s,n)=>(r(),a("div",null,[o(e),t("page2")]))}};export{_ as default};
