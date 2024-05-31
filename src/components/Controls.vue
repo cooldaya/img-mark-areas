@@ -1,5 +1,5 @@
 <template>
-  <div class="controls" ref="controlsElRef">
+  <div class="controls" ref="controlsElRef" v-scale-sync>
     <div class="actions">
       <button @click.stop="uploadImage">上传图片</button>
       <button @click.stop="startMarkPoint" ref="startElRef">开始</button>
@@ -13,9 +13,7 @@
       <div>
         标记点的颜色 <input type="color" @change="updateMarkPointColor" />
       </div>
-      <div class="user-data">
-        
-      </div>
+      <div class="user-data"></div>
     </div>
   </div>
 </template>
@@ -126,13 +124,6 @@ const exportData = async () => {
     META.img_name.replace(/\.[^/.]+$/, "") + "(区域标记).json";
   await downloadJson(shapes, jsonFileName);
   cancel();
-};
-
-// 监听用户页面缩放，同步control的缩放,使其大小不变
-window.onresize = function (event) {
-  const scale = window.devicePixelRatio;
-  const controlsEl = controlsElRef.value;
-  controlsEl.style.transform = `scale(${1 / scale})`;
 };
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="page-toggle">
+  <div class="page-toggle" v-scale-sync>
     <button @click.stop="togglePageHandle">Toggle Page</button>
   </div>
 </template>
