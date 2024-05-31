@@ -108,3 +108,73 @@ export function createLoadingOverlay() {
     },
   };
 }
+
+export function readJsonFile(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsText(file);
+    reader.onload = () => {
+      try {
+        const jsonStr = reader.result;
+        const shapes = JSON.parse(jsonStr);
+        resolve(shapes);
+      } catch (e) {
+        reject(e);
+      }
+    };
+  });
+}
+
+export function areasControl() {
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+  canvas.width = canvas.height = 0;
+  const config = {
+    areas: [],
+    areaLength: 0,
+  };
+
+  const setSize = (width, height) => {
+    canvas.width = width;
+    canvas.height = height;
+  };
+  const setAreas = (areas) => {
+    if (!areas.length) return;
+    const design = areas[0].points[0].design;
+    if (design.dw !== canvas.width || design.dh !== canvas.height) {
+      return alert("注意，图片尺寸与标注尺寸不匹配，请重新标注");
+    }
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const areaLength = areas.length;
+    config.areas = areas;
+    config.areaLength = areaLength;
+    areas.forEach((area, areaIndex) => {
+      ctx.beginPath();
+      area.points.forEach((point, index) => {
+        index === 0
+          ? ctx.moveTo(point.x, point.y)
+          : ctx.lineTo(point.x, point.y);
+      });
+      ctx.closePath();
+      const color = `#${(areaIndex + 1).toString(16).padStart(8, "0")}`; // 从 1 开始，每增加一个区域，颜色递增 避免跟底图黑色冲突
+      ctx.fillStyle = color;
+      ctx.fill();
+    });
+  };
+
+  const getClickArea = (x, y) => {
+    const pixelBits = ctx.getImageData(x, y, 1, 1).data;
+    const areaIndex =
+      Array.from(pixelBits).reduce((pre, cur) => pre + cur, 0) - 1; // 最多就可以就会有255 * 4 -1个区域
+    if (areaIndex < 0) {
+      return null; // 未点中任何区域
+    }
+    return config.areas[areaIndex];
+  };
+
+  return {
+    setSize,
+    setAreas,
+    getClickArea,
+  };
+}
