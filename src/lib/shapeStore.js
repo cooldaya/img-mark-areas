@@ -24,7 +24,6 @@ const shapeStore = {
     }
   },
   saveShape(shape) {
-    debugger;
     if (!META.img_md5) alert("请先上传图片");
     const imgShapeMapStr = localStorage.getItem("img-shape-map");
     const imgShapeIdsStr = localStorage.getItem("img-shape-ids-map");
@@ -58,5 +57,28 @@ const shapeStore = {
     localStorage.setItem("img-shape-map", JSON.stringify(imgShapeMap));
     localStorage.setItem("img-shape-ids-map", JSON.stringify(imgShapeIdsMap));
   },
+  saveShapes(shapes) {
+    if (!META.img_md5) alert("请先上传图片");
+    const imgShapeMapStr = localStorage.getItem("img-shape-map");
+    const imgShapeIdsStr = localStorage.getItem("img-shape-ids-map");
+
+
+    const imgShapeMap = JSON.parse(imgShapeMapStr) || {};
+    const imgShapeIdsMap = JSON.parse(imgShapeIdsStr) || {};
+
+
+    // const imgShapes = imgShapeMap[META.img_md5] || [];
+    // const imgShapeIds = imgShapeIdsMap[META.img_md5] || [];
+
+    const imgShapes = shapes;
+    const imgShapeIds = shapes.map(item=>item.id);
+
+    imgShapeMap[META.img_md5] = imgShapes;
+    imgShapeIdsMap[META.img_md5] = imgShapeIds;
+
+    localStorage.setItem("img-shape-map", JSON.stringify(imgShapeMap));
+    localStorage.setItem("img-shape-ids-map", JSON.stringify(imgShapeIdsMap));
+    
+  }
 };
 export default shapeStore;

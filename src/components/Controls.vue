@@ -6,6 +6,8 @@
       <button @click.stop="stopMarkPoint" ref="stopElRef" disabled>完毕</button>
       <button type="number" @click.stop="drawAllShapes">画出全部图形</button>
       <button @click.stop="exportData">导出数据</button>
+      <button @click.stop="importData">导入数据</button>
+
       <button @click="resetControl">清空画板</button>
       <input type="number" ref="inputElRef" />
     </div>
@@ -13,7 +15,6 @@
       <div>
         标记点的颜色 <input type="color" @change="updateMarkPointColor" />
       </div>
-      <div class="user-data"></div>
     </div>
   </div>
 </template>
@@ -25,9 +26,11 @@ import {
   downloadJson,
   getFileMD5,
   createLoadingOverlay,
+  readJsonFile
 } from "@/lib/tools";
 import eventBus from "@/eventBus";
 import shapeStore from "@/lib/shapeStore";
+
 
 const controlsElRef = ref(null);
 const startElRef = ref(null);
@@ -124,6 +127,15 @@ const exportData = async () => {
     META.img_name.replace(/\.[^/.]+$/, "") + "(区域标记).json";
   await downloadJson(shapes, jsonFileName);
   cancel();
+};
+
+const importData = async () => {
+  const res = await getFile({
+    accept: ".json",
+  });
+  const shapes = await readJsonFile(res.file);
+  shapeStore.saveShapes(shapes);
+  console.log({shapes});
 };
 </script>
 

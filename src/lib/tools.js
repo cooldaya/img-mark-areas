@@ -24,7 +24,7 @@ export async function downloadJson(json, fileName = "download.json") {
     return console.error("json参数必须是对象或者数组或者字符串");
   }
   const jsonObj = typeof json === "string" ? JSON.parse(json) : json;
-  const jsonStr = JSON.stringify(jsonObj, null, 4);
+  const jsonStr = JSON.stringify(jsonObj, null, 2);
 
   const url = window.URL || window.webkitURL || window;
   const blob = new Blob([jsonStr]);
@@ -141,8 +141,9 @@ export function areasControl() {
   const setAreas = (areas) => {
     if (!areas.length) return;
     const design = areas[0].points[0].design;
+    console.log(design);
     if (design.dw !== canvas.width || design.dh !== canvas.height) {
-      return alert("注意，图片尺寸与标注尺寸不匹配，请重新标注");
+      alert("注意，图片尺寸与标注尺寸不匹配，点击标记区域可能会有偏移");
     }
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const areaLength = areas.length;
