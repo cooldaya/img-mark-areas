@@ -82,7 +82,7 @@ const markPoint = (event) => {
       px: ((event.offsetX * 100) / META.design.dw).toFixed(2) + "%",
       py: ((event.offsetY * 100) / META.design.dh).toFixed(2) + "%",
     };
-    console.log(point, window.devicePixelRatio);
+    console.log(point,new Date().toLocaleTimeString());
     META.currentPoints.push(point);
     drawPoint(point);
   } else {
