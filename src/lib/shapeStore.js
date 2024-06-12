@@ -44,7 +44,6 @@ const shapeStore = {
     }
     if (reWrite) {
       const index = imgShapeIds.indexOf(shape.id + "");
-      debugger
       imgShapes[index] = shape;
     } else {
       imgShapes.push(shape);
